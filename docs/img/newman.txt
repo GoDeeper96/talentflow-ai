@@ -1,0 +1,51 @@
+newman
+TalentFlow AI
+0. Login Cognito (guarda idToken)
+  POST https://cognito-idp.us-east-1.amazonaws.com/ [200 OK, 4.55kB, 696ms]
+  Pass  login OK
+1. Salud
+  GET {{baseUrl}}/health [200 OK, 211B, 297ms]
+2. Quién soy (empresa y rol)
+  GET {{baseUrl}}/v1/me [200 OK, 303B, 114ms]
+3. Listar procesos
+  GET {{baseUrl}}/v1/procesos [200 OK, 1.07kB, 175ms]
+4. Crear proceso
+  POST {{baseUrl}}/v1/procesos [201 Created, 2.3kB, 182ms]
+  Pass  201
+5. Proponer métricas con IA (Groq + LangChain)
+  POST {{baseUrl}}/v1/procesos/603233b89843/rubrica/proponer [200 OK, 5.08kB, 3.3s]
+6. Ver proceso y rúbrica
+  GET {{baseUrl}}/v1/procesos/603233b89843 [200 OK, 7.19kB, 121ms]
+7. Editar importancia / umbral
+  PUT {{baseUrl}}/v1/procesos/603233b89843 [200 OK, 7.19kB, 184ms]
+8. Aprobar rúbrica
+  POST {{baseUrl}}/v1/procesos/603233b89843/rubrica/aprobar [200 OK, 7.28kB, 129ms]
+9. Crear lote (devuelve URLs prefirmadas de S3)
+  POST {{baseUrl}}/v1/procesos/603233b89843/lotes [201 Created, 1.9kB, 127ms]
+10. Subir CV a S3 (PUT a URL prefirmada)
+  PUT https://talentflowai-cvsc11525dc-s8guluna53fa.s3.amazonaws.com/cvs/tenant=nova-talent/proceso=.../<cvId>.txt?X-Amz-...(firma omitida) [200 OK, 516B, 351ms]
+11. Avance de lotes
+  GET {{baseUrl}}/v1/procesos/603233b89843/lotes [200 OK, 331B, 174ms]
+12. Ranking >= 50% (GSI1)
+  GET {{baseUrl}}/v1/procesos/603233b89843/postulantes?min=50 [200 OK, 194B, 181ms]
+13. Todos los postulantes
+  GET {{baseUrl}}/v1/procesos/603233b89843/postulantes [200 OK, 360B, 122ms]
+14. Ficha del postulante
+  GET {{baseUrl}}/v1/procesos/603233b89843/postulantes/a2fb245b260b42c6a201e66e6ee10f3d [200 OK, 377B, 136ms]
+15. Exportar CSV
+  GET {{baseUrl}}/v1/procesos/603233b89843/export [200 OK, 721B, 123ms]
+---------------------------------------------------------------------
+|                         |           executed |             failed |
+--------------------------+--------------------+---------------------
+|              iterations |                  1 |                  0 |
+--------------------------+--------------------+---------------------
+|                requests |                 16 |                  0 |
+--------------------------+--------------------+---------------------
+|            test-scripts |                  3 |                  0 |
+--------------------------+--------------------+---------------------
+|      prerequest-scripts |                  0 |                  0 |
+--------------------------+--------------------+---------------------
+|              assertions |                  2 |                  0 |
+---------------------------------------------------------------------
+| total run duration: 31.9s                                         |
+---------------------------------------------------------------------

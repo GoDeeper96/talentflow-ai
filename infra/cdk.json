@@ -1,0 +1,8 @@
+{
+  "app": ".venv\\Scripts\\python.exe app.py",
+  "context": {
+    "amplify_url": "https://main.d3fk1eh5p88ntj.amplifyapp.com",
+    "groq_model": "openai/gpt-oss-120b",
+    "max_paralelo": 2
+  }
+}

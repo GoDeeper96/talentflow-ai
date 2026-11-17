@@ -1,0 +1,8 @@
+{
+  "titulo": "Analista de Datos",
+  "area": "BI",
+  "apertura": "2026-11-16",
+  "cierre": "2026-11-30",
+  "funciones": "- Construir y mantener dashboards de ventas y operaciones en Power BI (modelado, DAX, Power Query).\n- Escribir consultas SQL sobre SQL Server y PostgreSQL para reportes y validación de datos.\n- Automatizar reportes recurrentes con Python (pandas) y programar cargas.\n- Definir y dar seguimiento a KPIs comerciales con las áreas de negocio.\n- Asegurar la calidad de datos y documentar fuentes y métricas.\n- Presentar hallazgos a jefaturas y proponer mejoras basadas en datos.\nRequisitos: bachiller o titulado en Ingeniería Industrial, de Sistemas, Estadística o afines; 2+ años en análisis de datos;\ninglés intermedio para documentación técnica; deseable experiencia en retail o consumo masivo y en nube (AWS, Azure o GCP).",
+  "cv_modelo": "Lucía Fernández Quispe - Analista de Datos Senior (CV de referencia ficticio)\nBachiller en Ingeniería Industrial, Universidad Nacional de Ingeniería (2018).\nExperiencia:\n- Analista de Datos Senior, Retail Andino SAC (2021 - actualidad): dashboards de ventas en Power BI con DAX y Power Query\n  para 120 tiendas; consultas SQL Server; automaticé el reporte semanal con Python, reduciendo de 6 a 1 hora su elaboración.\n  Definí KPIs de rotación de inventario con el área comercial.\n- Analista de BI, Consumo Perú SA (2018 - 2021): reportes en Excel avanzado y SQL; migración de reportes a Power BI.\nCertificaciones: Microsoft PL-300 Power BI Data Analyst (2022). AWS Cloud Practitioner (2023).\nIdiomas: inglés intermedio-avanzado (B2).\nHabilidades: comunicación con áreas de negocio, trabajo en equipo, orientación a resultados."
+}

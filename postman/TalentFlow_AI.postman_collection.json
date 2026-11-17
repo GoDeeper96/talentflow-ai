@@ -1,0 +1,525 @@
+{
+  "info": {
+    "name": "TalentFlow AI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "API multiempresa de TalentFlow AI. Ejecuta primero '0. Login Cognito'."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://ayg9ckxdz4.execute-api.us-east-1.amazonaws.com"
+    },
+    {
+      "key": "clientId",
+      "value": "qtjorl6e7qqkg5ibrv19g7r4a"
+    },
+    {
+      "key": "email",
+      "value": "analista@nova.example.com"
+    },
+    {
+      "key": "password",
+      "value": ""
+    },
+    {
+      "key": "idToken",
+      "value": ""
+    },
+    {
+      "key": "procesoId",
+      "value": ""
+    },
+    {
+      "key": "cvId",
+      "value": ""
+    },
+    {
+      "key": "uploadUrl",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Login Cognito (guarda idToken)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const d = pm.response.json();",
+              "pm.test('login OK', () => pm.expect(d.AuthenticationResult).to.exist);",
+              "pm.collectionVariables.set('idToken', d.AuthenticationResult.IdToken);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-amz-json-1.1"
+          },
+          {
+            "key": "X-Amz-Target",
+            "value": "AWSCognitoIdentityProviderService.InitiateAuth"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"AuthFlow\": \"USER_PASSWORD_AUTH\",\n  \"ClientId\": \"{{clientId}}\",\n  \"AuthParameters\": {\n    \"USERNAME\": \"{{email}}\",\n    \"PASSWORD\": \"{{password}}\"\n  }\n}"
+        },
+        "url": {
+          "raw": "https://cognito-idp.us-east-1.amazonaws.com/",
+          "protocol": "https",
+          "host": [
+            "cognito-idp",
+            "us-east-1",
+            "amazonaws",
+            "com"
+          ],
+          "path": [
+            ""
+          ]
+        }
+      }
+    },
+    {
+      "name": "1. Salud",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "2. Quién soy (empresa y rol)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/me",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "me"
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Listar procesos",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Crear proceso",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Analista de Datos\",\n  \"area\": \"BI\",\n  \"apertura\": \"2026-11-16\",\n  \"cierre\": \"2026-11-30\",\n  \"funciones\": \"- Construir y mantener dashboards de ventas y operaciones en Power BI (modelado, DAX, Power Query).\\n- Escribir consultas SQL sobre SQL Server y PostgreSQL para reportes y validación de datos.\\n- Automatizar reportes recurrentes con Python (pandas) y programar cargas.\\n- Definir y dar seguimiento a KPIs comerciales con las áreas de negocio.\\n- Asegurar la calidad de datos y documentar fuentes y métricas.\\n- Presentar hallazgos a jefaturas y proponer mejoras basadas en datos.\\nRequisitos: bachiller o titulado en Ingeniería Industrial, de Sistemas, Estadística o afines; 2+ años en análisis de datos;\\ninglés intermedio para documentación técnica; deseable experiencia en retail o consumo masivo y en nube (AWS, Azure o GCP).\",\n  \"cv_modelo\": \"Lucía Fernández Quispe - Analista de Datos Senior (CV de referencia ficticio)\\nBachiller en Ingeniería Industrial, Universidad Nacional de Ingeniería (2018).\\nExperiencia:\\n- Analista de Datos Senior, Retail Andino SAC (2021 - actualidad): dashboards de ventas en Power BI con DAX y Power Query\\n  para 120 tiendas; consultas SQL Server; automaticé el reporte semanal con Python, reduciendo de 6 a 1 hora su elaboración.\\n  Definí KPIs de rotación de inventario con el área comercial.\\n- Analista de BI, Consumo Perú SA (2018 - 2021): reportes en Excel avanzado y SQL; migración de reportes a Power BI.\\nCertificaciones: Microsoft PL-300 Power BI Data Analyst (2022). AWS Cloud Practitioner (2023).\\nIdiomas: inglés intermedio-avanzado (B2).\\nHabilidades: comunicación con áreas de negocio, trabajo en equipo, orientación a resultados.\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const d = pm.response.json();",
+              "pm.test('201', () => pm.response.to.have.status(201));",
+              "pm.collectionVariables.set('procesoId', d.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Proponer métricas con IA (Groq + LangChain)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}/rubrica/proponer",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}",
+            "rubrica",
+            "proponer"
+          ]
+        }
+      }
+    },
+    {
+      "name": "6. Ver proceso y rúbrica",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. Editar importancia / umbral",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"umbral\": 50\n}"
+        }
+      }
+    },
+    {
+      "name": "8. Aprobar rúbrica",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}/rubrica/aprobar",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}",
+            "rubrica",
+            "aprobar"
+          ]
+        }
+      }
+    },
+    {
+      "name": "9. Crear lote (devuelve URLs prefirmadas de S3)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}/lotes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}",
+            "lotes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"archivos\": [\n    {\n      \"nombre\": \"cv_ejemplo.txt\",\n      \"tamano\": 1200\n    }\n  ]\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const d = pm.response.json();",
+              "pm.collectionVariables.set('uploadUrl', d.subidas[0].url);",
+              "pm.collectionVariables.set('cvId', d.subidas[0].cv_id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Subir CV a S3 (PUT a URL prefirmada)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/plain"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "Carlos Mendoza Paredes\nAsistente Contable\nExperiencia: Estudio Contable Ficticio (2019-2024). Registro de compras y ventas, declaraciones mensuales a SUNAT,\nconciliaciones bancarias en Excel intermedio.\nFormación: Técnico en Contabilidad - Instituto Ficticio (2018).\nHabilidades: puntualidad, responsabilidad."
+        },
+        "url": "{{uploadUrl}}"
+      }
+    },
+    {
+      "name": "11. Avance de lotes",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}/lotes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}",
+            "lotes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "12. Ranking >= 50% (GSI1)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}/postulantes?min=50",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}",
+            "postulantes"
+          ],
+          "query": [
+            {
+              "key": "min",
+              "value": "50"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "13. Todos los postulantes",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}/postulantes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}",
+            "postulantes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "14. Ficha del postulante",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}/postulantes/{{cvId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}",
+            "postulantes",
+            "{{cvId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "15. Exportar CSV",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{idToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/procesos/{{procesoId}}/export",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "procesos",
+            "{{procesoId}}",
+            "export"
+          ]
+        }
+      }
+    }
+  ]
+}

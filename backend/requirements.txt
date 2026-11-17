@@ -1,0 +1,4 @@
+langchain-core>=0.3,<2
+langchain-groq>=0.3,<2
+pydantic>=2.7,<3
+pypdf>=5,<7

@@ -1,0 +1,10 @@
+Lucía Fernández Quispe - Analista de Datos Senior (CV de referencia ficticio)
+Bachiller en Ingeniería Industrial, Universidad Nacional de Ingeniería (2018).
+Experiencia:
+- Analista de Datos Senior, Retail Andino SAC (2021 - actualidad): dashboards de ventas en Power BI con DAX y Power Query
+  para 120 tiendas; consultas SQL Server; automaticé el reporte semanal con Python, reduciendo de 6 a 1 hora su elaboración.
+  Definí KPIs de rotación de inventario con el área comercial.
+- Analista de BI, Consumo Perú SA (2018 - 2021): reportes en Excel avanzado y SQL; migración de reportes a Power BI.
+Certificaciones: Microsoft PL-300 Power BI Data Analyst (2022). AWS Cloud Practitioner (2023).
+Idiomas: inglés intermedio-avanzado (B2).
+Habilidades: comunicación con áreas de negocio, trabajo en equipo, orientación a resultados.
